@@ -8,7 +8,7 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const fetch =  require('node-fetch'); 
-//const voteEmbed = require("erinapolls");
+
 
 // * GLOBAL VARIABLES
 const prefix = '#';
