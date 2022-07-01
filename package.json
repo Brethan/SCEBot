@@ -14,7 +14,7 @@
     "discord.js-poll-embed": "^1.0.2",
     "erinapolls": "^1.0.9",
     "moment": "^2.27.0",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.7",
     "weather-js": "^2.0.0"
   }
 }
