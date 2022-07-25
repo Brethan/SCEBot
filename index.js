@@ -266,7 +266,7 @@ client.on('message', message => {
             // Pronouns
             "HH":"he/him", "SH":"she/her", "TT":"they/them",
             // Singletons (Misc.)
-            "MAKER":"Maker Club",
+            "MAKER":"Maker Club", 
         }
         const role = message.guild.roles.cache.find(role => role.name.toUpperCase() === convert[args[0].toUpperCase()]);
         member.roles.add(role).catch(e => {
