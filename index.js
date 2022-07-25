@@ -16,26 +16,27 @@ const acse = "Architecture/Arch Engineering"
 const convert = {
     // Engineering Half
     // MAAE Dept.
-    "AE": "Aerospace Engineering", "BMM": "Biomedical Mech",
-    "ME": "Mechanical Engineering", "SREE": "SREE",
+    AE: "Aerospace Engineering", BMM: "Biomedical Mech",
+    ME: "Mechanical Engineering", SREE: "SREE",
     // SCE Dept.
-    "BME": "Biomedical Elec", "ComE": "Communications Engineering",
-    "CSE": "Computer Systems Engineering", "SE": "Software Engineering",
+    BME: "Biomedical Elec",             COME: "Communications Engineering",
+    CSE: "Computer Systems Engineering", SE: "Software Engineering",
     // CIVE Dept.
-    "ArchE": acse, "ACSE": acse, "CE": "Civil Engineering",
+    ARCHE: acse, ACSE: acse, 
+    CE: "Civil Engineering",
     // Design Half
-    "Arch": acse, "ID": "Industrial Design",
-    "IRM": "IRM", "IMD": "IMD", "MPD": "MPD", "OSS": "OSS", "NET": "NET",
-    //
-    "BSP": "Business, Social, Political", "AL": "Arts, Languages",
-    "CS": "Computer Science", "Math": "Math", "Science": "Science",
+    ARCH: acse, ID: "Industrial Design",
+    IRM: "IRM", IMD: "IMD", MPD: "MPD", OSS: "OSS", NET: "NET",
+    // Non Eng / Design
+    BSP: "Business, Social, Political", AL: "Arts, Languages",
+    CS: "Computer Science", MATH: "Math", SCIENCE: "Science",
     // Year Standing
-    "FIRST": "[First Year Standing]", "SECOND": "[Second Year Standing]",
-    "THIRD": "[Third Year Standing]", "FOURTH": "[Fourth Year Standing]",
+    FIRST: "[First Year Standing]", SECOND: "[Second Year Standing]",
+    THIRD: "[Third Year Standing]", FOURTH: "[Fourth Year Standing]",
     // Pronouns
-    "HH": "he/him", "SH": "she/her", "TT": "they/them",
+    HH: "he/him", SH: "she/her", TT: "they/them",
     // Singletons (Misc.)
-    "MAKER": "Maker Club",
+    MAKER: "Maker Club",
 }
 
 // * GLOBAL VARIABLES
