@@ -8,6 +8,7 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const fetch =  require('node-fetch'); 
+require("dotenv").config();
 
 
 // * GLOBAL VARIABLES
@@ -174,7 +175,7 @@ client.once('ready', () => {
 });
 
 // * BOT TOKEN LOGIN
-client.login('NzMzODc2MDg4NTQ3MDQ5NDk4.XxJhXg.MmbRA48tr3oCXOJSTYlK4OnQxZg');
+client.login(process.env.TOKEN);
 
 // * LOGGER
 client.on('messageDelete', message => {
@@ -307,12 +308,12 @@ client.on('message', message => {
 // * MODULAR
 client.on('ready', () => {
     //let server = client.guild.id;
-    let dailyUpdatesChannel = client.channels.cache.get('749425029728698399');
+    // let dailyUpdatesChannel = client.channels.cache.get('749425029728698399');
 
-    setInterval(() => { // THIS IS THE LOOP WHICH WILL UPDATE THE DAILY UPDATES CHNL WITH WEATHER
-        dailyUpdatesChannel.bulkDelete(1);
-        response('https://api.openweathermap.org/data/2.5/onecall?lat=45.3876&lon=-75.6960&units=metric&exclude=minutely,current&appid=2083373d69c764744d4561d93e208821', 'https://api.openweathermap.org/data/2.5/weather?lat=45.3876&lon=-75.6960&units=metric&appid=2083373d69c764744d4561d93e208821', dailyUpdatesChannel, 'getWeather');
-    }, 3600000);
+    // setInterval(() => { // THIS IS THE LOOP WHICH WILL UPDATE THE DAILY UPDATES CHNL WITH WEATHER
+    //     dailyUpdatesChannel.bulkDelete(1);
+    //     response('https://api.openweathermap.org/data/2.5/onecall?lat=45.3876&lon=-75.6960&units=metric&exclude=minutely,current&appid=2083373d69c764744d4561d93e208821', 'https://api.openweathermap.org/data/2.5/weather?lat=45.3876&lon=-75.6960&units=metric&appid=2083373d69c764744d4561d93e208821', dailyUpdatesChannel, 'getWeather');
+    // }, 3600000);
 });
 
 
