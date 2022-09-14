@@ -319,6 +319,19 @@ client.on('message', message => {
     }
 
 });
+
+client.on("guildMemberAdd",  async (member) => {
+    if (member.partial) {
+        member = await member.fetch();
+    }
+
+    const role = member.guild.roles.cache.find(r => r.name.toLowerCase() === "member");
+    if (role)
+        member.roles.add(role);
+
+    
+})
+
         
 // * MODULAR
 client.on('ready', () => {
