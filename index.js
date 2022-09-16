@@ -172,11 +172,11 @@ client.on('messageDelete', message => {
     if (message.partial)
         return;
     if (message.content.startsWith(prefix))
-        return
+        return;
 
 	console.log(`A message by ${message.author.tag} was deleted, but we don't know by who yet.`);
     const embed = new Discord.MessageEmbed()
-        .setTitle("Message deleted")
+        .setTitle(`Message sent by ${message.author} deleted in ${message.channel}`)
         .setDescription(`Content: "${message.content}`)
         .setAuthor("Sender: " + message.author.tag, message.author.displayAvatarURL())
         .setFooter(`Author: ${message.author.id} | Message ID: ${message.id}`)
