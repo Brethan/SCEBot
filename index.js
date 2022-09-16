@@ -189,6 +189,19 @@ client.on('messageDelete', message => {
     channel.send(embed);
 });
 
+
+function assignRemove(message, args, msg, member, command) {
+    const role = message.guild.roles.cache.find(role => role.name === convert[args[0].toUpperCase()]);
+    const deleteMsg = (msg) => msg.delete({ timeout: 7000 });
+    /** @type {"add" | "remove"} */
+    const method = command === "ASSIGN" ? "add" : "remove";
+    member.roles[method](role).catch(e => {
+        message.reply('there was an error, please follow the format above.').then(deleteMsg);
+        console.error(e);
+    });
+    if (role) message.react('👍');
+    deleteMsg(message);
+}
 // * REQUESTED COMMANDS
 client.on('message', message => {
     console.log(message.author.username, ': ', message.content); // logs messages sent
@@ -250,16 +263,7 @@ client.on('message', message => {
     }
     
     else if (command.match(/ASSIGN|REMOVE/)) {
-        const role = message.guild.roles.cache.find(role => role.name === convert[args[0].toUpperCase()]);
-        const deleteMsg = (msg) => msg.delete({timeout: 7000});
-        /** @type {"add" | "remove"} */
-        const method = command === "ASSIGN" ? "add" : "remove";
-        member.roles[method](role).catch(e => {
-            message.reply('there was an error, please follow the format above.').then(deleteMsg);
-            console.error(e);
-        });
-        if(role) message.react('👍');
-        deleteMsg(message); 
+        assignRemove(message, args, msg, member, command);
     }
 
     else if (command === 'COUNT') {
