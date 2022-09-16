@@ -171,7 +171,9 @@ client.on('messageDelete', message => {
     // Cannot recover deleted message partials
     if (message.partial)
         return;
-        
+    if (message.content.startsWith(prefix))
+        return
+
 	console.log(`A message by ${message.author.tag} was deleted, but we don't know by who yet.`);
     const embed = new Discord.MessageEmbed()
         .setTitle("Message deleted")
