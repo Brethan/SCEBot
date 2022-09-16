@@ -45,8 +45,9 @@ let receptionChannel;
 let rolesChannel;
 let announcementChannel = '';
 let lobbyChannel = '';
-let logsChannel = '';
+let logsChannel = process.env.LOGS;
 let interactiveChannel = '';
+let fetched = false;
 
 
 // * FUNCTIONS
@@ -167,7 +168,23 @@ client.login(process.env.TOKEN);
 
 // * LOGGER
 client.on('messageDelete', message => {
+    // Cannot recover deleted message partials
+    if (message.partial)
+        return;
+        
 	console.log(`A message by ${message.author.tag} was deleted, but we don't know by who yet.`);
+    const embed = new Discord.MessageEmbed()
+        .setTitle("Message deleted")
+        .setDescription(`Content: "${message.content}`)
+        .setAuthor("Sender: " + message.author.tag, message.author.displayAvatarURL())
+        .setFooter(`Author: ${message.author.id} | Message ID: ${message.id}`)
+        .setTimestamp()
+        .setColor("YELLOW");
+
+    const { guild } = message;
+    /** @type {Discord.TextChannel} */
+    const channel = guild?.channels.resolve(logsChannel);
+    channel.send(embed);
 });
 
 // * REQUESTED COMMANDS
@@ -297,8 +314,11 @@ client.on("guildMemberAdd",  async (member) => {
 
         
 // * MODULAR
-client.on('ready', () => {
-    //let server = client.guild.id;
+client.on('ready', async () => {
+    const guild = await client.guilds.fetch(process.env.GUILD)
+    await guild.members.fetch();
+    fetched = true;
+    console.log("Commands ready!");
     // let dailyUpdatesChannel = client.channels.cache.get('749425029728698399');
 
     // setInterval(() => { // THIS IS THE LOOP WHICH WILL UPDATE THE DAILY UPDATES CHNL WITH WEATHER
