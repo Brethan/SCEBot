@@ -246,9 +246,11 @@ client.on('message', message => {
     else if (command === 'COUNT') {
         try {
             const alias = args[0].toUpperCase();
-            const role = message.guild.roles.cache.find(role => role.name.toUpperCase() === convert[alias]);
-            message.reply(`There are currently ${role.members.size} members in ${role.name}.`);
-            if(role) message.react('👍');
+            const role = message.guild.roles.cache.find(role => role.name === convert[alias]);
+            if (role)  {
+                message.react('👍');
+                message.reply(`There are currently ${role.members.size} members in ${role.name}.`);
+            }
           }
         catch(e) {
             message.reply('there was an error, that role could not be found.')
