@@ -10,7 +10,7 @@
   "author": "Benni E.",
   "license": "ISC",
   "dependencies": {
-    "discord.js": "^12.2.0",
+    "discord.js": "^12.5.3",
     "discord.js-poll-embed": "^1.0.2",
     "dotenv": "^16.0.1",
     "erinapolls": "^1.0.9",
