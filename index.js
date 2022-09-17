@@ -176,8 +176,8 @@ client.on('messageDelete', message => {
 
 	console.log(`A message by ${message.author.tag} was deleted, but we don't know by who yet.`);
     const embed = new Discord.MessageEmbed()
-        .setTitle(`Message sent by ${message.author} deleted in ${message.channel}`)
-        .setDescription(`Content: "${message.content}`)
+        .setDescription(`**Message sent by ${message.author} deleted in ${message.channel}**`
+            + `\nContent: "${message.content}`)
         .setAuthor("Sender: " + message.author.tag, message.author.displayAvatarURL())
         .setFooter(`Author: ${message.author.id} | Message ID: ${message.id}`)
         .setTimestamp()
@@ -191,7 +191,8 @@ client.on('messageDelete', message => {
 
 // * REQUESTED COMMANDS
 client.on('message', message => {
-    console.log(message.author.username, ': ', message.content); // logs messages sent
+    if (!message.author.bot)
+        console.log(message.author.username, ': ', message.content); // logs messages sent
 
     const member = message.member; // sender
     const msg = message.content.slice(6).trim(); // all message content
