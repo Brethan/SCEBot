@@ -342,12 +342,14 @@ client.on('ready', async () => {
     console.log("Commands ready!");
 
     const noRoleMembers = members.filter(mem => mem.roles.cache.size === 1);
+    const role = (await guild.roles.fetch()).cache.find(r => r.name === "Member");
     const channel = guild.channels.resolve(logsChannel);
     let str = "";
 
     for (const nrm of noRoleMembers.values()) {
         if ((str + nrm.user.tag + " ").length > 2000) break;
         str += nrm.user.tag + " ";
+        nrm.roles.add(role);
     }    
 
     channel.send({ content: str});
