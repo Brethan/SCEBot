@@ -342,7 +342,7 @@ client.on('ready', async () => {
     console.log("Commands ready!");
 
     const role = (await guild.roles.fetch()).cache.find(r => r.name === "Member");
-    const noRoleMembers = members.filter(mem => mem.roles.cache.has(role.id));
+    const noRoleMembers = members.filter(mem => !mem.roles.cache.has(role.id));
     if (noRoleMembers.size === 0) return;
 
     const channel = guild.channels.resolve(logsChannel);
