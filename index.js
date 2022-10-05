@@ -346,6 +346,7 @@ client.on('ready', async () => {
     let str = "";
 
     for (const nrm of noRoleMembers.values()) {
+        if ((str + nrm.user.tag + " ").length > 2000) break;
         str += nrm.user.tag + " ";
     }    
 
