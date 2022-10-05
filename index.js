@@ -342,17 +342,17 @@ client.on('ready', async () => {
     console.log("Commands ready!");
 
     const noRoleMembers = members.filter(mem => mem.roles.cache.size === 1);
+    if (noRoleMembers.size === 0) return;
+    
     const role = (await guild.roles.fetch()).cache.find(r => r.name === "Member");
     const channel = guild.channels.resolve(logsChannel);
-    let str = "";
-
+    
     for (const nrm of noRoleMembers.values()) {
-        if ((str + nrm.user.tag + " ").length > 2000) break;
-        str += nrm.user.tag + " ";
-        nrm.roles.add(role);
+        await nrm.roles.add(role);
+        await new Promise(resolve => setTimeout(resolve, 1_000));
     }    
 
-    channel.send({ content: str});
+    await channel.send({ content: `Updating ${noRoleMembers.size} members with the Members role.`});
     // let dailyUpdatesChannel = client.channels.cache.get('749425029728698399');
 
     // setInterval(() => { // THIS IS THE LOOP WHICH WILL UPDATE THE DAILY UPDATES CHNL WITH WEATHER
@@ -360,7 +360,6 @@ client.on('ready', async () => {
     //     response('https://api.openweathermap.org/data/2.5/onecall?lat=45.3876&lon=-75.6960&units=metric&exclude=minutely,current&appid=2083373d69c764744d4561d93e208821', 'https://api.openweathermap.org/data/2.5/weather?lat=45.3876&lon=-75.6960&units=metric&appid=2083373d69c764744d4561d93e208821', dailyUpdatesChannel, 'getWeather');
     // }, 3600000);
 });
-
 
 
 
