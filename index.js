@@ -316,13 +316,40 @@ client.on("guildMemberAdd",  async (member) => {
     
 })
 
+client.on("guildMemberUpdate", async (o, n) => {
+    return;
+    if (o.partial)
+        o = await o.fetch();
+    if (n.partial)
+        n = await n.fetch();
+
+    const nCache = n.roles.cache;
+    const oCache = o.roles.cache;
+
+    if (oCache.size != nCache.size) {
+        const nArr = nCache.map(r => r.id);
+        oCache.find(r => nCache.has())
+    }
+    
+})
         
 // * MODULAR
 client.on('ready', async () => {
+    /** @type {Discord.Guild} */
     const guild = await client.guilds.fetch(process.env.GUILD)
-    await guild.members.fetch();
+    const members = await guild.members.fetch();
     fetched = true;
     console.log("Commands ready!");
+
+    const noRoleMembers = members.filter(mem => !mem.roles.cache.find(r => r.name === "Member"));
+    const channel = guild.channels.resolve(logsChannel);
+    let str = "";
+
+    for (const nrm of noRoleMembers.values()) {
+        str += nrm.user.tag + " ";
+    }    
+
+    channel.send({ content: str});
     // let dailyUpdatesChannel = client.channels.cache.get('749425029728698399');
 
     // setInterval(() => { // THIS IS THE LOOP WHICH WILL UPDATE THE DAILY UPDATES CHNL WITH WEATHER
