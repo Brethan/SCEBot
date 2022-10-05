@@ -341,7 +341,7 @@ client.on('ready', async () => {
     fetched = true;
     console.log("Commands ready!");
 
-    const noRoleMembers = members.filter(mem => !mem.roles.cache.find(r => r.name === "Member"));
+    const noRoleMembers = members.filter(mem => mem.roles.cache.size === 0);
     const channel = guild.channels.resolve(logsChannel);
     let str = "";
 
