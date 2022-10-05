@@ -341,18 +341,19 @@ client.on('ready', async () => {
     fetched = true;
     console.log("Commands ready!");
 
-    const noRoleMembers = members.filter(mem => mem.roles.cache.size === 1);
-    if (noRoleMembers.size === 0) return;
-    
     const role = (await guild.roles.fetch()).cache.find(r => r.name === "Member");
+    const noRoleMembers = members.filter(mem => mem.roles.cache.has(role.id));
+    if (noRoleMembers.size === 0) return;
+
     const channel = guild.channels.resolve(logsChannel);
     
+    await channel.send("Adding the Member role to " + noRoleMembers.size + " people");
     for (const nrm of noRoleMembers.values()) {
         await nrm.roles.add(role);
         await new Promise(resolve => setTimeout(resolve, 1_000));
     }    
 
-    await channel.send({ content: `Updating ${noRoleMembers.size} members with the Members role.`});
+    await channel.send({ content: `Updated ${noRoleMembers.size} members with the Members role.`});
     // let dailyUpdatesChannel = client.channels.cache.get('749425029728698399');
 
     // setInterval(() => { // THIS IS THE LOOP WHICH WILL UPDATE THE DAILY UPDATES CHNL WITH WEATHER
