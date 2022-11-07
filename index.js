@@ -15,7 +15,7 @@ require("dotenv").config();
 const acse = "Architecture/Arch Engineering"
 const convert = {
     // Engineering Half
-    // MAAE Dept.
+    // MAAE Dept. 
     AE: "Aerospace Engineering", BMM: "Biomedical Mech",
     ME: "Mechanical Engineering", SREE: "SREE",
     // SCE Dept.
