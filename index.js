@@ -13,7 +13,7 @@ require("dotenv").config();
 // * Constants
 
 const acse = "Architecture/Arch Engineering"
-const convert = {
+const convert = { 
     // Engineering Half
     // MAAE Dept.
     AE: "Aerospace Engineering", BMM: "Biomedical Mech",
