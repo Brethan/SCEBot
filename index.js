@@ -24,6 +24,8 @@ const convert = {
     // CIVE Dept.
     ARCHE: acse, ACSE: acse, 
     CE: "Civil Engineering",
+    // ELEC Dept.
+    EE: "Electrical Engineering", EP: "Engineering Physics",
     // Design Half
     ARCH: acse, ID: "Industrial Design",
     IRM: "IRM", IMD: "IMD", MPD: "MPD", OSS: "OSS", NET: "NET",
