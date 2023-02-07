@@ -8,6 +8,7 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const fetch =  require('node-fetch'); 
+const course = require("./user_modules/course.js")
 require("dotenv").config();
 
 // * Constants
@@ -297,6 +298,8 @@ client.on('message', message => {
             console.log(guildMemberId, guildMember.user.username);
             message.channel.send(`<@${guildMemberId}> ${msg}`);
         });
+    } else if (command === "COURSE") {
+        course.execute(message, args);
     }
 
 });
@@ -338,19 +341,19 @@ client.on('ready', async () => {
     fetched = true;
     console.log("Commands ready!");
 
-    const role = (await guild.roles.fetch()).cache.find(r => r.name === "Member");
-    const noRoleMembers = members.filter(mem => !mem.roles.cache.has(role.id));
-    if (noRoleMembers.size === 0) return;
+    // const role = (await guild.roles.fetch()).cache.find(r => r.name === "Member");
+    // const noRoleMembers = members.filter(mem => !mem.roles.cache.has(role.id));
+    // if (noRoleMembers.size === 0) return;
 
-    const channel = guild.channels.resolve(logsChannel);
+    // const channel = guild.channels.resolve(logsChannel);
     
-    await channel.send("Adding the Member role to " + noRoleMembers.size + " people");
-    for (const nrm of noRoleMembers.values()) {
-        await nrm.roles.add(role);
-        await new Promise(resolve => setTimeout(resolve, 1_000));
-    }    
+    // await channel.send("Adding the Member role to " + noRoleMembers.size + " people");
+    // for (const nrm of noRoleMembers.values()) {
+    //     await nrm.roles.add(role);
+    //     await new Promise(resolve => setTimeout(resolve, 1_000));
+    // }    
 
-    await channel.send({ content: `Updated ${noRoleMembers.size} members with the Members role.`});
+    // await channel.send({ content: `Updated ${noRoleMembers.size} members with the Members role.`});
     // let dailyUpdatesChannel = client.channels.cache.get('749425029728698399');
 
     // setInterval(() => { // THIS IS THE LOOP WHICH WILL UPDATE THE DAILY UPDATES CHNL WITH WEATHER
