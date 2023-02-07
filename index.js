@@ -201,30 +201,31 @@ client.on('message', message => {
     const args = message.content.slice(prefix.length).trim().split(' '); // array of content info
     const command = args.shift().toUpperCase(); // command attached to prefix
     
-    if(!message.content.startsWith(prefix) || message.author.bot) return; // if msg doesnt start w/ prefix, return
+    if(!message.content.startsWith(prefix) || message.author.bot) {
+        return; // if msg doesnt start w/ prefix, return
+    } else if (command === 'CHANNEL') {
+        switch (args[0]) {
+            case "reception":
+                receptionChannel = message.channel.id;
+                break;
+            case "roles":
+                rolesChannel = message.channel.id;
+                break;
+            case "announcement":
+                announcementChannel = message.channel.id;
+                break;
+            case "lobby":
+                lobbyChannel = message.channel.id;
+                break;
+            case "logs":
+                logsChannel = message.channel.id;
+                break;
+            case "interact":
+                interactiveChannel = message.channel.id;
+                break;
+        }      
 
-    else if (command === 'CHANNEL') {
-        if (args[0] === "reception") {
-            receptionChannel = message.channel.id;
-        }
-        else if (args[0] === "roles") {
-            rolesChannel = message.channel.id;
-        }
-        else if (args[0] === "announcement") {
-            announcementChannel = message.channel.id;
-        }
-        else if (args[0] === "lobby") {
-            lobbyChannel = message.channel.id;
-        }
-        else if (args[0] === "logs") {
-            logsChannel = message.channel.id;
-        }
-        else if (args[0] === "interact") {
-            interactiveChannel = message.channel.id;
-        }        
-    }
-
-    else if (command === 'DP') {
+    } else if (command === 'DP') {
         if (!message.mentions.users.size) {
             return message.channel.send(`${message.author.displayAvatarURL({ format: "png", dynamic: true })}`);
         }
@@ -232,9 +233,8 @@ client.on('message', message => {
             return `${user.displayAvatarURL({ format: "png", dynamic: true })}`;
         });
         message.channel.send(avatarList);
-    }
-
-    else if (command === 'EVICT') {
+        
+    } else if (command === 'EVICT') {
         const amount = parseInt(args[0]) + 1;
         if (!message.member.hasPermission("MANAGE_MESSAGES")) { // checks if sender has manage_member perms
                 message.channel.send('You are not authorized to use this command.')
