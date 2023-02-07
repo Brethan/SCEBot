@@ -250,9 +250,8 @@ client.on('message', message => {
             console.error(err);
             message.channel.send('There was an error, please contact a moderator.');
         });
-    }
-    
-    else if (command.match(/ASSIGN|REMOVE/)) {
+
+    } else if (command.match(/ASSIGN|REMOVE/)) {
         const role = message.guild.roles.cache.find(role => role.name === convert[args[0].toUpperCase()]);
         const deleteMsg = (msg) => msg.delete({timeout: 7000});
         /** @type {"add" | "remove"} */
@@ -263,9 +262,8 @@ client.on('message', message => {
         });
         if(role) message.react('👍');
         deleteMsg(message); 
-    }
 
-    else if (command === 'COUNT') {
+    } else if (command === 'COUNT') {
         try {
             const alias = args[0].toUpperCase();
             const role = message.guild.roles.cache.find(role => role.name === convert[alias]);
@@ -273,8 +271,8 @@ client.on('message', message => {
                 message.react('👍');
                 message.reply(`There are currently ${role.members.size} members in ${role.name}.`);
             }
-          }
-        catch(e) {
+
+          } catch(e) {
             message.reply('there was an error, that role could not be found.')
                 .then(msg => {
                     msg.delete({timeout: 7000});
@@ -282,19 +280,16 @@ client.on('message', message => {
             console.error(e);
             message.react('👎');
           }
-    }
-    
-    
-    else if (command === 'POLL') {
+
+    } else if (command === 'POLL') {
         let title = args[0];
         let timeout = args[1];
         let emojiList = ['⬆️','⬇️','↕️'];
         let forceEndPollEmoji = '💯';
         let options = args.slice(2);
         toVoteEmbed(message, title, options, timeout, emojiList, forceEndPollEmoji);
-    }
 
-    else if (command === 'ALLIN') {
+    } else if (command === 'ALLIN') {
         const voiceChannel = message.member.voice.channel;
         console.log(receptionChannel);
         if (!voiceChannel) return message.channel.send("Please join a voice channel");
