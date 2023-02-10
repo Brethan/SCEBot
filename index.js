@@ -173,6 +173,7 @@ const login = async () => {
             await client.login(process.env.TOKEN);
         } catch (error) {
             console.log("Couldn't connect :(");
+            console.log(error);
         }
 
         await new Promise(resolve => setTimeout(resolve, 5_000));
