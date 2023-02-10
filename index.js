@@ -7,7 +7,7 @@
 
 const Discord = require('discord.js');
 const client = new Discord.Client();
-const fetch =  require('node-fetch'); 
+const fetch = require('node-fetch');
 const course = require("./user_modules/course.js")
 require("dotenv").config();
 
@@ -20,10 +20,10 @@ const convert = {
     AE: "Aerospace Engineering", BMM: "Biomedical Mech",
     ME: "Mechanical Engineering", SREE: "SREE",
     // SCE Dept.
-    BME: "Biomedical Elec",             COME: "Communications Engineering",
+    BME: "Biomedical Elec", COME: "Communications Engineering",
     CSE: "Computer Systems Engineering", SE: "Software Engineering",
     // CIVE Dept.
-    ARCHE: acse, ACSE: acse, 
+    ARCHE: acse, ACSE: acse,
     CE: "Civil Engineering",
     // ELEC Dept.
     EE: "Electrical Engineering", EP: "Engineering Physics",
@@ -57,7 +57,7 @@ let fetched = false;
 
 const response = require("./user_modules/response.js");
 
-function toVoteEmbed (message, title, options, timeout, emojiList, forceEndPollEmoji) {
+function toVoteEmbed(message, title, options, timeout, emojiList, forceEndPollEmoji) {
     const { MessageEmbed } = require("discord.js");
 
     const defEmojiList = [
@@ -94,11 +94,10 @@ function toVoteEmbed (message, title, options, timeout, emojiList, forceEndPollE
                 `Please do not exceed ${emojiList.length} options.`
             );
 
-        let text = `To vote, react using the emojis below.\n ${
-            timeout > 0
+        let text = `To vote, react using the emojis below.\n ${timeout > 0
                 ? "The poll will end in **" + timeout + "** seconds."
                 : "They poll will **manually end**, as decided by the creator."
-        }\n The creator of this poll can end it forcefully using the ${forceEndPollEmoji} emoji.\n\n`;
+            }\n The creator of this poll can end it forcefully using the ${forceEndPollEmoji} emoji.\n\n`;
         const emojiInfo = {};
         for (const option of options) {
             const emoji = emojiList.splice(0, 1);
@@ -147,7 +146,7 @@ function toVoteEmbed (message, title, options, timeout, emojiList, forceEndPollE
             );
         });
     };
-    
+
 
     const embedBuilder = (title, author) => {
         return new MessageEmbed()
@@ -158,8 +157,8 @@ function toVoteEmbed (message, title, options, timeout, emojiList, forceEndPollE
             );
     };
     voteEmbed(message, title, options, timeout, emojiList, forceEndPollEmoji);
-    module.exports = voteEmbed; 
-}  
+    module.exports = voteEmbed;
+}
 
 // * STATUS INDICATOR
 client.once('ready', () => {
@@ -167,8 +166,20 @@ client.once('ready', () => {
 });
 
 // * BOT TOKEN LOGIN
-client.login(process.env.TOKEN);
+const login = async () => {
+    let counter = 0
+    while ((counter++) < 25) {
+        try {
+            await client.login(process.env.TOKEN);
+        } catch (error) {
+            console.log("Couldn't connect :(");
+        }
 
+        await new Promise(resolve => setTimeout(resolve, 5_000));
+    }
+}
+
+login()
 // * LOGGER
 client.on('messageDelete', message => {
     // Cannot recover deleted message partials
@@ -177,7 +188,7 @@ client.on('messageDelete', message => {
     if (message.content.startsWith(prefix))
         return;
 
-	console.log(`A message by ${message.author.tag} was deleted, but we don't know by who yet.`);
+    console.log(`A message by ${message.author.tag} was deleted, but we don't know by who yet.`);
     const embed = new Discord.MessageEmbed()
         .setDescription(`**Message sent by ${message.author} deleted in ${message.channel}**`
             + `\nContent: "${message.content}`)
@@ -201,8 +212,8 @@ client.on('message', message => {
     const msg = message.content.slice(6).trim(); // all message content
     const args = message.content.slice(prefix.length).trim().split(' '); // array of content info
     const command = args.shift().toUpperCase(); // command attached to prefix
-    
-    if(!message.content.startsWith(prefix) || message.author.bot) {
+
+    if (!message.content.startsWith(prefix) || message.author.bot) {
         return; // if msg doesnt start w/ prefix, return
     } else if (command === 'CHANNEL') {
         switch (args[0]) {
@@ -224,7 +235,7 @@ client.on('message', message => {
             case "interact":
                 interactiveChannel = message.channel.id;
                 break;
-        }      
+        }
 
     } else if (command === 'DP') {
         if (!message.mentions.users.size) {
@@ -234,13 +245,13 @@ client.on('message', message => {
             return `${user.displayAvatarURL({ format: "png", dynamic: true })}`;
         });
         message.channel.send(avatarList);
-        
+
     } else if (command === 'EVICT') {
         const amount = parseInt(args[0]) + 1;
         if (!message.member.hasPermission("MANAGE_MESSAGES")) { // checks if sender has manage_member perms
-                message.channel.send('You are not authorized to use this command.')
-                return;
-            }
+            message.channel.send('You are not authorized to use this command.')
+            return;
+        }
         else if (isNaN(amount)) {
             return message.reply('Please specify how many messages are to be deleted.');
         }
@@ -254,38 +265,38 @@ client.on('message', message => {
 
     } else if (command.match(/ASSIGN|REMOVE/)) {
         const role = message.guild.roles.cache.find(role => role.name === convert[args[0].toUpperCase()]);
-        const deleteMsg = (msg) => msg.delete({timeout: 7000});
+        const deleteMsg = (msg) => msg.delete({ timeout: 7000 });
         /** @type {"add" | "remove"} */
         const method = command === "ASSIGN" ? "add" : "remove";
         member.roles[method](role).catch(e => {
             message.reply('there was an error, please follow the format above.').then(deleteMsg);
             console.error(e);
         });
-        if(role) message.react('👍');
-        deleteMsg(message); 
+        if (role) message.react('👍');
+        deleteMsg(message);
 
     } else if (command === 'COUNT') {
         try {
             const alias = args[0].toUpperCase();
             const role = message.guild.roles.cache.find(role => role.name === convert[alias]);
-            if (role)  {
+            if (role) {
                 message.react('👍');
                 message.reply(`There are currently ${role.members.size} members in ${role.name}.`);
             }
 
-          } catch(e) {
+        } catch (e) {
             message.reply('there was an error, that role could not be found.')
                 .then(msg => {
-                    msg.delete({timeout: 7000});
+                    msg.delete({ timeout: 7000 });
                 });
             console.error(e);
             message.react('👎');
-          }
+        }
 
     } else if (command === 'POLL') {
         let title = args[0];
         let timeout = args[1];
-        let emojiList = ['⬆️','⬇️','↕️'];
+        let emojiList = ['⬆️', '⬇️', '↕️'];
         let forceEndPollEmoji = '💯';
         let options = args.slice(2);
         toVoteEmbed(message, title, options, timeout, emojiList, forceEndPollEmoji);
@@ -294,7 +305,7 @@ client.on('message', message => {
         const voiceChannel = message.member.voice.channel;
         console.log(receptionChannel);
         if (!voiceChannel) return message.channel.send("Please join a voice channel");
-        voiceChannel.members.forEach(function(guildMember, guildMemberId) {
+        voiceChannel.members.forEach(function (guildMember, guildMemberId) {
             console.log(guildMemberId, guildMember.user.username);
             message.channel.send(`<@${guildMemberId}> ${msg}`);
         });
@@ -304,7 +315,7 @@ client.on('message', message => {
 
 });
 
-client.on("guildMemberAdd",  async (member) => {
+client.on("guildMemberAdd", async (member) => {
     if (member.partial) {
         member = await member.fetch();
     }
@@ -313,7 +324,7 @@ client.on("guildMemberAdd",  async (member) => {
     if (role)
         member.roles.add(role);
 
-    
+
 })
 
 client.on("guildMemberUpdate", async (o, n) => {
@@ -330,9 +341,9 @@ client.on("guildMemberUpdate", async (o, n) => {
         const nArr = nCache.map(r => r.id);
         oCache.find(r => nCache.has())
     }
-    
+
 })
-        
+
 // * MODULAR
 client.on('ready', async () => {
     /** @type {Discord.Guild} */
@@ -341,19 +352,19 @@ client.on('ready', async () => {
     fetched = true;
     console.log("Commands ready!");
 
-    // const role = (await guild.roles.fetch()).cache.find(r => r.name === "Member");
-    // const noRoleMembers = members.filter(mem => !mem.roles.cache.has(role.id));
-    // if (noRoleMembers.size === 0) return;
+    const role = (await guild.roles.fetch()).cache.find(r => r.name === "Member");
+    const noRoleMembers = members.filter(mem => !mem.roles.cache.has(role.id));
+    if (noRoleMembers.size === 0) return;
 
-    // const channel = guild.channels.resolve(logsChannel);
-    
-    // await channel.send("Adding the Member role to " + noRoleMembers.size + " people");
-    // for (const nrm of noRoleMembers.values()) {
-    //     await nrm.roles.add(role);
-    //     await new Promise(resolve => setTimeout(resolve, 1_000));
-    // }    
+    const channel = guild.channels.resolve(logsChannel);
 
-    // await channel.send({ content: `Updated ${noRoleMembers.size} members with the Members role.`});
+    await channel.send("Adding the Member role to " + noRoleMembers.size + " people");
+    for (const nrm of noRoleMembers.values()) {
+        await nrm.roles.add(role);
+        await new Promise(resolve => setTimeout(resolve, 1_000));
+    }    
+
+    await channel.send({ content: `Updated ${noRoleMembers.size} members with the Members role.`});
     // let dailyUpdatesChannel = client.channels.cache.get('749425029728698399');
 
     // setInterval(() => { // THIS IS THE LOOP WHICH WILL UPDATE THE DAILY UPDATES CHNL WITH WEATHER
