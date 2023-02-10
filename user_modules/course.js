@@ -44,7 +44,7 @@ module.exports = {
 
         const embed = await courseinfo(dept.toUpperCase(), code);
         const errorMsg = "Couldn't find any results for " + dept + " " + code + ".";
-        return message.channel.send(embed?.setFooter("Run s.course dept-#### to see information on a course!") || errorMsg).then(msg => {
+        return message.channel.send(embed?.setFooter("Run #course dept-#### to see information on a course!") || errorMsg).then(msg => {
             message.delete({timeout: 500}).catch(console.error);
             if (msg.content === errorMsg) {
                 msg.delete({timeout: 7_000}).catch(console.error);
