@@ -205,7 +205,7 @@ client.on('messageDelete', message => {
 });
 
 // * REQUESTED COMMANDS
-client.on('message', message => {
+client.on('message', async message => {
     if (!message.author.bot)
         console.log(message.author.username, ': ', message.content); // logs messages sent
 
@@ -311,7 +311,14 @@ client.on('message', message => {
             message.channel.send(`<@${guildMemberId}> ${msg}`);
         });
     } else if (command === "COURSE") {
-        course.execute(message, args);
+        const courseEmbed = course.execute(message, args);
+        message.channel.send({embed: courseEmbed});
+    } else if (command === "RESET") {
+        const modRole = message.member.roles.cache.find(r => r.name.toLowerCase() == "moderator");
+        if (modRole) {
+            // This is to force SCEBot to restart so that it pulls from the repo
+            throw new Error();
+        }
     }
 
 });

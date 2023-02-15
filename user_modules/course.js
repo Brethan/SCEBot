@@ -23,32 +23,17 @@ module.exports = {
             dept = split[0], code = split[1];
 
         } else {
-            if (args.length === 1 && args[0].includes("-")) {
-                const split = args[0].split("-");
-                dept = split[0], code = split[1];
-                
-            } else if (args.length === 1 && args[0].length === 8) {
-                dept = args[0].substring(0, 4), code = args[0].substring(4);
-                
-            } else if (args.length === 2 && (args[0].length === 4 && args[1].length === 4)) {
-                dept = args[0], code = args[1];
+            const matches = message.content.match(/[A-z]{4}([^\w]|_){0,}[0-9]{4}/g)
+	        if (!matches) return null;
 
-            } else {
-                return message.channel.send("This doesn't look like a course code to me, try again!")
-                    .then(msg => {
-                        msg.delete({timeout: 7_000}).catch(console.error);
-                        message.delete({timeout: 500}).catch(console.error);
-                    });
-            }
+            const firstMatch = matches[0];
+            dept = firstMatch.substring(0, 4).toUpperCase();
+            code = firstMatch.substring(firstMatch.length - 4);
         }
 
-        const embed = await courseinfo(dept.toUpperCase(), code);
-        const errorMsg = "Couldn't find any results for " + dept + " " + code + ".";
-        return message.channel.send(embed?.setFooter("Run #course dept-#### to see information on a course!") || errorMsg).then(msg => {
-            message.delete({timeout: 500}).catch(console.error);
-            if (msg.content === errorMsg) {
-                msg.delete({timeout: 7_000}).catch(console.error);
-            }
-        })
+        const includePrereqs = !!message.content.match(/\-v|prereq/gi);
+        const embed = await courseinfo(dept.toUpperCase(), code, includePrereqs);
+        return embed?.setFooter({ text: "Run s.course dept-#### to see information on a course!" });
+
     }
 }

@@ -1,7 +1,7 @@
 const rp = require("request-promise")
 const { MessageEmbed } = require("discord.js");
 
-module.exports = async (department, code) => {
+module.exports = async (department, code, footer = true) => {
     const url = `https://calendar.carleton.ca/search/?P=${department}%20${code}`
     const title = "<div class=\"searchresult search-courseresult\">";
     const courseblock = "<div class=\"courseblock\">";
@@ -39,13 +39,14 @@ module.exports = async (department, code) => {
     //console.log(courseDesc.trim());
 
     const add_start = html.indexOf(additional) + additional.length;
-    let courseAdd = html.substring(add_start).replace(/<br\/>/g, "\n");
+    let courseAdd = "\n\n" + html.substring(add_start).replace(/<br\/>/g, "\n");
     courseAdd = removeHeaders(courseAdd.substring(0, courseAdd.indexOf("</div>")))
     // console.log(courseAdd);
 
-    const embed = new MessageEmbed().setTitle(courseTitle)
+    const embed = new MessageEmbed()
+        .setTitle(courseTitle)
         .setURL(url)
-        .setDescription(courseDesc + "\n\n" + courseAdd)
+        .setDescription(courseDesc + (footer ? courseAdd : ""))
         .setColor("GREEN")
     return embed
 }
