@@ -312,6 +312,8 @@ client.on('message', async message => {
         });
     } else if (command === "COURSE") {
         const courseEmbed = await course.execute(message, args);
+        console.log(courseEmbed.footer);
+        console.log(courseEmbed.description);
         message.channel.send({embed: courseEmbed});
     } else if (command === "RESET") {
         const modRole = message.member.roles.cache.find(r => r.name.toLowerCase() == "moderator");
