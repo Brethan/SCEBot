@@ -311,8 +311,8 @@ client.on('message', async message => {
             message.channel.send(`<@${guildMemberId}> ${msg}`);
         });
     } else if (command === "COURSE") {
-        const courseEmbed = course.execute(message, args);
-        message.channel.send({embed: [courseEmbed]});
+        const courseEmbed = await course.execute(message, args);
+        message.channel.send({embed: courseEmbed});
     } else if (command === "RESET") {
         const modRole = message.member.roles.cache.find(r => r.name.toLowerCase() == "moderator");
         if (modRole) {
