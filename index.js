@@ -312,7 +312,7 @@ client.on('message', async message => {
         });
     } else if (command === "COURSE") {
         const courseEmbed = course.execute(message, args);
-        message.channel.send({embed: courseEmbed});
+        message.channel.send({embed: [courseEmbed]});
     } else if (command === "RESET") {
         const modRole = message.member.roles.cache.find(r => r.name.toLowerCase() == "moderator");
         if (modRole) {
